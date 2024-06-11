@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  volumes:
+    - name: "nginx-data"
+      nfs:
+        server: 192.168.2.252
+        path: "/mnt/tank/nfs/Temp/"
+  containers:
+    - image: nginx
+      name: nginx
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: "nginx-data"
+      ports:
+      - containerPort: 80
+        name: http
+        protocol: TCP
