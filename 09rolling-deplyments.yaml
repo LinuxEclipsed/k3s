@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: be-default
+  name: be-default
+  namespace: default
+  uid: a66303a4-14f9-438b-8a4f-40c22a1507b8
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 12
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: be-default
+  strategy:
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 100%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        kubernetes.io/change-cause: Slow rollout green
+      creationTimestamp: null
+      labels:
+        app: be-default
+    spec:
+      containers:
+      - image: gcr.io/kuar-demo/kuard-amd64:green
+        imagePullPolicy: IfNotPresent
+        name: kuard-amd64
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

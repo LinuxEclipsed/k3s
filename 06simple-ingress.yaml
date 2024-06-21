@@ -1,0 +1,8 @@
+apiVersion: v1beta1
+kind: Ingress
+metadata:
+  name: simple-ingress
+spec:
+  backend:
+    serviceName: alpaca
+    servicePort: 8080
